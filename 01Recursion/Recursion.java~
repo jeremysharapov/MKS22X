@@ -1,0 +1,15 @@
+public class Recursion{ 
+    public static String name(){
+	return "Sharapov,Jeremy";
+    }
+    
+    public static double sqrt(double n){
+	if(n < 0){
+	    throw IllegalArgumentException();
+	}
+    }
+
+    public static double isCloseEnough(double n, double guess){
+	
+
+}
