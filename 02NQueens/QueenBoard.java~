@@ -1,0 +1,43 @@
+public class QueenBoard{
+    private int[][]board;
+    private int solutionCount;
+    
+    public QueenBoard(int size){
+	board = new int[size][size];
+    }
+    
+
+
+    public void solve(){
+	solveH(0);
+    }
+
+    private void solveH(int col){
+	
+    }
+
+    private void addQueen(int r, int c){
+	board[r][c] = -1;
+	for(int row = 0; row < board.length; row++){
+	    for(int column = 0; column < board.length; column++){
+		if((column == c || row == r || (Math.abs(row - r) == Math.abs(column - c))) && board[row][column] != -1){
+		    board[row][column]++;
+		}
+	    }
+	}
+    }
+
+    public void countSolutions(){
+	
+    }
+
+    
+    public int getCount(){
+    	return -1;
+    }
+
+    
+    public String toString(){
+    	return "";
+    }
+}
