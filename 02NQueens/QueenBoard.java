@@ -58,11 +58,12 @@ public class QueenBoard{
     public void countSolutionsH(int col){
 	if(col >= board.length){
 	    solutionCount++;
+	    return;
 	}
 	for(int row = 0; row < board.length; row++){
 	    if(board[row][col] == 0){
 		addQueen(row, col);
-		solveH(col + 1);
+		countSolutionsH(col + 1);
 		removeQueen(row, col);
 	    }
 	}
@@ -91,5 +92,11 @@ public class QueenBoard{
 	    ans += "\n";
 	}
 	return ans;
+    }
+
+    public static void main(String[] args){
+	QueenBoard q1 = new QueenBoard(8);
+	q1.solve();
+	System.out.println(q1.toString());
     }
 }
