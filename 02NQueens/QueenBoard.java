@@ -41,7 +41,6 @@ public class QueenBoard{
     }
 
     private void removeQueen(int r, int c){
-	board[r][c] = 0;
 	for(int row = 0; row < board.length; row++){
 	    for(int col = 0; col < board.length; col++){
 		if((col == c || row == r || (Math.abs(row - r) == Math.abs(col - c))) && board[row][col] != -1){
@@ -49,6 +48,7 @@ public class QueenBoard{
 		}
 	    }
 	}
+	board[r][c] = 0;
     }
     
     public void countSolutions(){
@@ -92,11 +92,5 @@ public class QueenBoard{
 	    ans += "\n";
 	}
 	return ans;
-    }
-
-    public static void main(String[] args){
-	QueenBoard q1 = new QueenBoard(8);
-	q1.solve();
-	System.out.println(q1.toString());
     }
 }
