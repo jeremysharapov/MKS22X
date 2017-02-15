@@ -1,0 +1,13 @@
+public class KnightBoard{
+    private int[][] board;
+
+    public KnightBoard(int startingRows,int startingCols){
+	board = new int[startingRows][startingCols];
+    }
+
+    public void solve(){
+	solveH(0, 0, 1);
+    }
+
+    public boolean solveH(int row ,int col, int level){
+	
