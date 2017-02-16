@@ -4,6 +4,7 @@ public class QueenBoard{
     
     public QueenBoard(int size){
 	board = new int[size][size];
+	solutionCount = -1;
     }
     
 
@@ -52,6 +53,7 @@ public class QueenBoard{
     }
     
     public void countSolutions(){
+	solutionCount = 0;
 	countSolutionsH(0);
     }
     
@@ -70,12 +72,7 @@ public class QueenBoard{
     }
     
     public int getSolutionCount(){
-	if(solutionCount > 0){
-	    return solutionCount;
-	}
-	else{
-	    return -1;
-	}
+	return solutionCount;
     }
     
     public String toString(){
@@ -86,7 +83,7 @@ public class QueenBoard{
 		    ans += "Q ";
 		}
 		else{
-		    ans += board[r][c] + " ";
+		    ans += "_ ";
 		}
 	    }
 	    ans += "\n";
