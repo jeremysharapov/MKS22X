@@ -10,7 +10,7 @@ public class KnightBoard{
     }
 
     public boolean solveH(int row ,int col, int level){
-	if(level == board.length * board[0].length){
+	if(level > board.length * board[0].length){
 	    return true;
 	}
 	if(col >= board[0].length || row >= board.length || col < 0 || row < 0){
@@ -38,7 +38,7 @@ public class KnightBoard{
     public String toString(){
 	String ans = "";
 	for (int r = 0; r < board.length; r++){
-	    for (int c = 0; c < board.length; c++){
+	    for (int c = 0; c < board[0].length; c++){
 		if(board[r][c] >= 10){
 		    ans += board[r][c] + " ";
 		}
@@ -52,7 +52,7 @@ public class KnightBoard{
     }
 
     public static void main(String[] args){
-	KnightBoard k1 = new KnightBoard(5, 5);
+	KnightBoard k1 = new KnightBoard(7, 6);
 	k1.solve();
 	System.out.println(k1);
     }
