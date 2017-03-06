@@ -4,23 +4,69 @@ import java.io.*;
 public class Maze{
     private char[][]maze;
     private boolean animate;
+    private int Sx;
+    private int Sy;
     
-
     
     public Maze(String filename){
-        Scanner scan = new scanner(new File("filename"));
-	String temp;
-	int col;
-	while (scan.hasNextLine()){
-	    temp = temp + scan.nextLine();
-	    col++;
+	setAnimate(false);
+	try{
+	    Scanner scan = new Scanner(new File(filename));
+	    int row = 1;
+	    int col = scan.nextLine().length();
+	    String temp = "";
+	    while (scan.hasNextLine()){	
+		temp = temp + scan.nextLine() + "\n";
+		row++;
+	    }
+	    maze = new char[row][col];
+	    Scanner scan2 = new Scanner(new File(filename));
+	    int r = 0;
+	    while (scan2.hasNextLine()){
+		String tempLine = scan2.nextLine();
+		for (int c = 0; c < col; c++){
+		    maze[r][c] = tempLine.charAt(c);
+		}
+		r++;
+	    }
+	    if (!(existanceOfE()) || !(existanceOfS())){
+		System.out.println("File is not a valid maze!");
+		System.exit(1);
+	    }
 	}
-	    
-	    
+	catch(FileNotFoundException FNFE){
+	    System.out.println("File not found");
+	    System.exit(1);
+	}
     }
-    
 
-    private void wait(int millis){ //ADDED SORRY!
+    public boolean existanceOfS(){
+	int countS = 0;
+	for (int r = 0; r < maze.length; r++){
+	    for (int c = 0; c < maze[0].length; c++){
+		if (maze[r][c] == 'S'){
+		    Sx = c;
+		    Sy = r;
+		    countS++;
+		}
+	    }
+	}
+	return countS == 1;
+    }
+
+    public boolean existanceOfE(){
+	int countE = 0;
+	for (int r = 0; r < maze.length; r++){
+	    for (int c = 0; c < maze[0].length; c++){
+		if (maze[r][c] == 'E'){
+		    countE++;
+		}
+	    }
+	}
+	return countE == 1;
+    }
+
+    private void wait(int millis){
          try {
              Thread.sleep(millis);
          }
@@ -30,61 +76,62 @@ public class Maze{
 
 
     public void setAnimate(boolean b){
-
         animate = b;
-
     }
 
 
     public void clearTerminal(){
-
-        //erase terminal, go to top left of screen.
-
         System.out.println("\033[2J\033[1;1H");
-
     }
 
-
-
-    /*Wrapper Solve Function
-      Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
-    */
     public boolean solve(){
-            int startr=-1,startc=-1;
-
-            //Initialize starting row and startint col with the location of the S. 
-
-            maze[startr][startc] = ' ';//erase the S, and start solving!
-            return solve(startr,startc);
+	int startr = Sy;
+	int startc = Sx; 
+	maze[startr][startc] = ' ';
+	return solve(startr, startc);
     }
 
-    /*
-      Recursive Solve function:
-
-      A solved maze has a path marked with '@' from S to E.
-
-      Returns true when the maze is solved,
-      Returns false when the maze has no solution.
-
-
-      Postcondition:
-
-        The S is replaced with '@' but the 'E' is not.
-
-        All visited spots that were not part of the solution are changed to '.'
-        All visited spots that are part of the solution are changed to '@'
-    */
     private boolean solve(int row, int col){
         if(animate){
             System.out.println("\033[2J\033[1;1H"+this);
-
             wait(20);
         }
-
-        //COMPLETE SOLVE
-
-        return false; //so it compiles
+	if (row < 0 || row >= maze.length || col < 0 || col >= maze[0].length){
+	    return false;
+	}
+	if (maze[row][col] == 'E'){
+	    return true;
+	}
+	if(maze[row][col] == '#' || maze[row][col] == '.'){
+	    return false;
+	}
+	if (maze[row][col] == ' '){
+	    maze[row][col] = '@';
+	    if (solve(row + 1, col) || solve(row, col + 1) || solve(row - 1, col) || solve(row, col - 1)){
+		return true;
+	    }
+	    else{
+		maze[row][col] = '.';
+	    }
+	}
+        return false;
     }
 
-
+    public String toString(){
+	String ans = "";
+	for (int r = 0; r < maze.length; r++){
+	    for (int c = 0; c < maze[0].length; c++){
+		ans += maze[r][c];
+	    }
+	    ans += "\n";
+	}
+	return ans;
+    }
+    
+    public static void main(String[] args){
+	Maze maze1 = new Maze("data3.dat");
+	System.out.println(maze1);
+	maze1.solve();
+	System.out.println(maze1);
+    }
 }
