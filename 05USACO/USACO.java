@@ -3,7 +3,7 @@ import java.io.*;
 
 public class USACO{
    
-    public static void Bronze(String filename){
+    /* public static void Bronze(String filename){
 	Scanner scan = new Scanner(new File ("filename"));
 	int[] firstLine;
 	int count = 0;
@@ -21,35 +21,35 @@ public class USACO{
 	}
 	/*while (scan.hasNextLine()){
 	    stomp(scan.nextInt(), scan.nextInt(), scan.nextInt());
+	    }
 	    }*/
-    }
     
     public static void Silver(String filename){
-	Scanner scan = new Scanner(new File ("filename"));
-	int[] firstLine;
-	int count = 0;
-	while (scan.nextLine().hasNextInt()){
-	    firstLine[count] = scan.nextInt();
-	    count++;
-	}
-	int[][] grid = new int[firstLine[0]][firstLine[1]];
-	int time = firstLine[2];
-	for (int row = 0; row < firstLine[0]; row++){
-	    for (int col = 0; col < firstLine[1]; col++){
-		if (scan.next() == "*"){
-		    grid[row][col] = -1;
-		}
-		else{
-		    grid[row][col] = 0;
+	try{
+	    Scanner scan = new Scanner(new File ("filename"));
+	    int[][] grid = new int[scan.nextInt()][scan.nextInt()];
+	    int time = scan.nextInt();
+	    for (int row = 0; row < grid.length; row++){
+		for (int col = 0; col < grid[0].length; col++){
+		    if (scan.next() == "*"){
+			grid[row][col] = -1;
+		    }
+		    else{
+			grid[row][col] = 0;
+		    }
 		}
 	    }
+	    int startx = scan.nextInt() - 1;
+	    int starty = scan.nextInt() - 1;
+	    int endx = scan.nextInt() - 1;
+	    int endy = scan.nextInt() - 1;
+	    grid[startx][starty] = 1;
+	    SilverH(grid, grid, time, endx, endy, 1);
 	}
-	int startx = scan.nextInt() - 1;
-	int starty = scan.nextInt() - 1;
-	int endx = scan.nextInt() - 1;
-	int endy = scan.nextInt() - 1;
-	grid[startx][starty] = 1;
-	SilverH(grid, grid, time, endx, endy, 1);
+	catch(FileNotFoundException FNFE){
+	    System.out.println("File not found");
+	    System.exit(1);
+	}
     }
 
     public static boolean isValid(int r, int c, int[][] field){
@@ -82,6 +82,5 @@ public class USACO{
 	else{
 	    return SilverH(next, next, t, x, y, step + 1);
 	}
-	return -1;
     }
 }
