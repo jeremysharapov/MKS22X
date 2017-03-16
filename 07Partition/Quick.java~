@@ -1,0 +1,14 @@
+import java.util.*;
+public class Quick{
+
+
+    public static int part(int [] data, int start, int end){
+        int pivot = ThreadLocalRandom.current().nextInt(start, end + 1);
+	for(int i = 0; i < data.length; i++){
+	    if(data[i] > data[pivot]){
+		int temp = data[i];
+		data[i] = data[pivot];
+		data[pivot] = temp;
+	    }
+	}
+    }
