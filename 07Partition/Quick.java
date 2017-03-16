@@ -18,8 +18,20 @@ public class Quick{
 	return pivotIndex;
     }
 
-    public static void main(String[] args){
-	int[] hi = {9, 0, 5, 3, 8, 6, 2, 1, 4, 7};
-	System.out.println(part(hi, 2, 8));
+
+    public static int quickselect(int[]data, int k){
+	int start = 0;
+	int end = data.length - 1;
+	int guess = part(data, start, end);
+	while (k != guess + 1){
+	    if (guess + 1 > k){
+		end = guess - 1;
+	    }
+	    if (guess + 1 < k){
+		start = guess + 1;
+	    }
+	    guess = part(data, start, end);
+	}
+	return data[guess];
     }
 }
