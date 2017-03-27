@@ -3,23 +3,67 @@ public class Quick{
 
 
     public static int part(int[] data, int start, int end){
+	System.out.println(Arrays.toString(data));
         int pivotIndex = new Random().nextInt(end - start + 1) + start;
 	int pivot = data[pivotIndex];
-	data[pivotIndex] = data[start];
-	data[start] = pivot;
+	swap(data, pivotIndex, start);
 	pivotIndex = start;
-	for(int i = start + 1; i < end; i++){
+	int lt = start;
+	int i = start + 1;
+	int gt = end;
+	System.out.println(Arrays.toString(data));
+	/*for(int i = start; i < end; i++){
 	    if(data[i] < pivot){
-		data[pivotIndex] = data[i];
-		data[i] = pivot;
-		pivotIndex = i;
+		Swap(data, i, pivotIndex);
+		pivotIndex++;
 	    }
 	}
+	Swap(data, end, pivotIndex);
 	return pivotIndex;
+	}
+	*/
+	while (i <= gt){
+	    if (data[i] == pivot){
+		i++;
+	    }
+	    else if (data[i] < pivot){
+		swap(data, i, lt);
+		lt++;
+		i++;
+	    }
+	    else{
+		swap(data, i, gt);
+		gt--;
+	    }
+	    System.out.println(Arrays.toString(data));
+	}
+	return gt;
+    }
+
+    public static void swap(int[] data, int here, int there){
+	int temp = data[here];
+	data[here] = data[there];
+	data[there] = temp;
+    }
+    
+    public static int quickselect(int[]data, int k){
+	int start = 0;
+	int end = data.length - 1;
+	int guess = part(data, start, end);
+	while (k != guess){
+	    if (guess > k){
+		end = guess - 1;
+	    }
+	    if (guess < k){
+		start = guess + 1;
+	    }
+	    guess = part(data, start, end);
+	}
+	return data[guess];
     }
 
     public static void main(String[] args){
-	int[] hi = {9, 0, 5, 3, 8, 6, 2, 1, 4, 7};
-	System.out.println(part(hi, 2, 8));
+	int[] bob = {8, 5, 0, 9, 3, 1, 4, 6, 2, 7};
+	System.out.println(part(bob, 0, 9));
     }
 }
