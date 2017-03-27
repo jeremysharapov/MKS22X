@@ -1,0 +1,55 @@
+import java.util.*;
+public class Merge{
+    
+    public static void mergesort(int[] ary){
+	if (ary.length <= 1){
+	    return;
+	}
+	else{
+	    int[] left = new int[ary.length / 2];
+	    for (int l = 0; l < ary.length / 2; l++){
+		left[l] = ary[l];
+	    }
+	    int[] right = new int[ary.length / 2];
+	    for (int r = ary.length / 2 + 1; r < ary.length; r++){
+		right[r] = ary[r];
+	    }
+	    mergesort(left);
+	    mergesort(right);
+	    merge(left, right, ary);
+	}
+    }
+    
+	
+
+    public static void merge(int[] a, int[] b, int[] destination){
+	int[] sorted = new int[destination.length];
+	int aIndex = 0;
+	int bIndex = 0;
+	for (int i = 0; i < sorted.length; i++){
+	    if (aIndex >= a.length){
+		sorted[i] = b[bIndex];
+		bIndex++;
+	    }
+	    else if (bIndex >= b.length){
+		sorted[i] = a[aIndex];
+		aIndex++;
+	    }
+	    else if (a[aIndex] < b[bIndex]){
+		sorted[i] = a[aIndex];
+		aIndex++;
+	    }
+	    else{
+		sorted[i] = b[bIndex];
+		bIndex++;
+	    }
+	}
+    }
+	    
+	
+    public static void main(String[] args){
+	int[] bob = {7, 9, 5, 6, 3, 1, 8, 0, 2, 4};
+	mergesort(bob);
+	System.out.println(Arrays.toString(bob));
+    }
+}
