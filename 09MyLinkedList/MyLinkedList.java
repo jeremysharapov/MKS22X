@@ -1,123 +1,138 @@
 import java.util.*;
-public class MyLinkedList{
+public class MyLinkedList implements Iterable<Integer>{
     int size;
-    LNode start;
-
+    LNode head, tail;
+    
+    private class LNode{
+	LNode next, prev;
+	int value;
+	public LNode(int value){
+	    this.value = value;
+	}
+	public String toString(){
+	    return value + "";
+	}
+    }
+    
+    
     public MyLinkedList(){
-	size = 0;
-	head = null;
-	tail = null;
     }
 
-    public boolean add(int value){
-	start = new LNode(value);
-	size++;
-	return true;
-    }
-
-    public void add(int index, int value){
-    }
-
-    private void insertAfter(LNode TBA, LNode location){
-	if (tail == location){
-	    TBA.prev = location;
-	    location.next = TBA;
-	    tail = TBA;
-	}
-	else{
-	    TBA.next = location.next;
-	    TBA.prev = location;
-	    location.next.prev = TBA;
-	    location.next = TBA;
-	}
-    }
-
-    private void insertBefore(LNode TBA, LNode location){
-	if (head == location){
-	    TBA.next = location;
-	    location.prev = TBA;
-	    head = TBA;
-	}
-	else{
-	    TBA.prev = location.prev;
-	    TBA.next = location;
-	    location.prev.next = TBA;
-	    location.prev = TBA;
-	}
-    }
-    
-    public int remove(int index){
-	remove(getLNode(index));
-    }
-
-    private void remove(LNode x){
-	if (x == head && x == tail){
-	    tail = null;
-	    head = null;
-	}
-	if (x == tail){
-	    x.prev.next = null;
-	    tail = x.prev;
-	}
-	if (x == head){
-	    x.next.prev = null;
-	    head = x.next;
-	}
-	else{
-	    x.prev.next = x.next;
-	    x.next.prev = x.prev;
-	}
-	return x.value;
-    }	
-    
+        
     public int size(){
 	return size;
     }
 
+    private LNode getNthNode(int n){
+	LNode current = head;
+	for (int i = 0; i < n; i++){
+	    current = current.next;
+	}
+	return current;
+    }
+
+    private void addAfter(LNode location, LNode toBeAdded){
+	if (tail == location){
+	    toBeAdded.prev = location;
+	    location.next = toBeAdded;
+	    tail = toBeAdded;
+	}
+	else{
+	    toBeAdded.next = location.next;
+	    toBeAdded.prev = location;
+	    location.next.prev = toBeAdded;
+	    location.next = toBeAdded;
+	}
+    }
+
+    private void remove(LNode target){
+	if (target == head && target == tail){
+	    tail = null;
+	    head = null;
+	}
+	if (target == tail){
+	    target.prev.next = null;
+	    tail = target.prev;
+	}
+	if (target == head){
+	    target.next.prev = null;
+	    head = target.next;
+	}
+	else{
+	    target.prev.next = target.next;
+	    target.next.prev = target.prev;
+	}
+    }
+    
     public String toString(){
 	LNode current = head;
 	String list = "[";
 	for (int i = 0; i < size; i++){
-	    list = list + " " + current.value + ",";
+	    list = list + " " + current.value;
+	    if (i != size - 1){
+		list = list + ",";
+	    }
 	    current = current.next;
 	}
 	list = list + "]";
 	return list;
     }
 
+    public boolean add(int value){
+	add(size, value);
+	return true;
+    }
+
     public int get(int index){
-	LNode current = head;
-	for (int i = 0; i = index; i++){
-	    current = current.next;
-	}
-	return current.value;
+	return getNthNode(index).value;
     }
 
-    private LNode getLNode(int index){
-	LNode current = head;
-	for (int i = 0; i = index; i++){
-	    current = current.next;
-	}
-	return current;
+    public int set(int index, int value){
+	LNode target = getNthNode(index);
+	int ans = target.value;
+	target.value = value;
+	return ans;
     }
     
-    public int set(int index, int newValue){
-	LNode current = head;
-	for (int i = 0; i = index; i++){
-	    current = current.next;
-	}
-	int temp = current.value;
-	current.value = newValue;
-	return temp;
+    public int indexOf(int value){
     }
     
-    private class LNode{
-	int value;
-	LNode prev;
-	LNode next;
+    public int remove(int index){
+	remove(getNthNode(index));
+    }
+    
+    public void add(int index, int value){
+    }
 
-	public LNode(int v){
-	    value = v;
+    public Interator<Integer>{
+	return new LinkedListIterator(this);
+    }
+
+    public class LinkedListIterator implements Iterator<Integer>{
+	private myLinkedList Lonk;
+	private LNode L;
+
+	public LinkedListIterator(myLinkedList MLL){
+	    Lonk = MLL;
+	    L = Lonk.head;
+	}
+
+	public boolean hasNext(){
+	    return !(L.next == null);
+	}
+
+	public Integer next(){
+	    if(hasNext()){
+		L = L.next;
+		return L;
+	    }
+	    else{
+		throw new NoSuchElementException();
+	    }
+	}
+
+	public void remove(){
+	    throw new UnsupportedOperationException();
 	}
     }
 }
