@@ -14,7 +14,6 @@ public class MyLinkedList implements Iterable<Integer>{
 	}
     }
     
-    
     public MyLinkedList(){
     }
 
@@ -24,6 +23,9 @@ public class MyLinkedList implements Iterable<Integer>{
     }
 
     private LNode getNthNode(int n){
+	if (n < 0 || n >= size){
+	    throw new IndexOutOfBoundsException();
+	}
 	LNode current = head;
 	for (int i = 0; i < n; i++){
 	    current = current.next;
@@ -43,6 +45,7 @@ public class MyLinkedList implements Iterable<Integer>{
 	    location.next.prev = toBeAdded;
 	    location.next = toBeAdded;
 	}
+	size++;
     }
 
     private void remove(LNode target){
@@ -62,19 +65,20 @@ public class MyLinkedList implements Iterable<Integer>{
 	    target.prev.next = target.next;
 	    target.next.prev = target.prev;
 	}
+	size--;
     }
     
     public String toString(){
 	LNode current = head;
 	String list = "[";
 	for (int i = 0; i < size; i++){
-	    list = list + " " + current.value;
+	    list += current;
 	    if (i != size - 1){
-		list = list + ",";
+		list = list + ", ";
 	    }
 	    current = current.next;
 	}
-	list = list + "]";
+	list += "]";
 	return list;
     }
 
@@ -95,36 +99,48 @@ public class MyLinkedList implements Iterable<Integer>{
     }
     
     public int indexOf(int value){
+	LNode current = head;
+	for(int i = 0; i < size; i++){
+	    if(current.value == value){
+		return i;
+	    }
+	    current = current.next;
+	}
+	return -1;
     }
     
     public int remove(int index){
+	int L = getNthNode(index).value;
 	remove(getNthNode(index));
+	return L;
     }
     
     public void add(int index, int value){
+	LNode TBA = new LNode(value);
+	addAfter(getNthNode(index - 1), TBA);
     }
 
     public Interator<Integer>{
-	return new LinkedListIterator(this);
+	return new MyLinkedListIterator(this);
     }
 
-    public class LinkedListIterator implements Iterator<Integer>{
-	private myLinkedList Lonk;
+    public class MyLinkedListIterator implements Iterator<Integer>{
+	private MyLinkedList Lonk;
 	private LNode L;
 
-	public LinkedListIterator(myLinkedList MLL){
+	public MyLinkedListIterator(MyLinkedList MLL){
 	    Lonk = MLL;
 	    L = Lonk.head;
 	}
 
 	public boolean hasNext(){
-	    return !(L.next == null);
+	    return L.next != null;
 	}
 
 	public Integer next(){
 	    if(hasNext()){
 		L = L.next;
-		return L;
+		return L.value;
 	    }
 	    else{
 		throw new NoSuchElementException();
