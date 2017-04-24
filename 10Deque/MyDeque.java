@@ -30,12 +30,12 @@ public class MyDeque{
 
     private void resize(){
 	String[] temp = new String[size * 2];
-	for(int t = 0; t <= tail; t++){
-	    temp[t] = data[t];
+	for(int b = 0; b <= back; b++){
+	    temp[b] = data[b];
 	}
-	if (head > tail){
-	    for(int h = 0; h >= data.length - head - 1; h++){
-		temp[temp.length - h - 1] = data[data.length - h - 1];
+	if (front > back){
+	    for(int f = 0; f >= data.length - front - 1; f++){
+		temp[temp.length - f - 1] = data[data.length - f - 1];
 	    }
 	}
     }

@@ -120,7 +120,7 @@ public class MyLinkedList implements Iterable<Integer>{
 	addAfter(getNthNode(index - 1), TBA);
     }
 
-    public Interator<Integer>{
+    public Iterator<Integer> iterator(){
 	return new MyLinkedListIterator(this);
     }
 
