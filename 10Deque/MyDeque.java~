@@ -1,0 +1,6 @@
+import java.util.*;
+public class MyDeque{
+    private int front, back, size;
+    private String[] data;
+
+    
