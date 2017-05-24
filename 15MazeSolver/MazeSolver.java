@@ -1,0 +1,76 @@
+import java.util.*;
+public class MazeSolver{
+    private Maze board;
+    private boolean animate;
+    private boolean aStar;
+    private Frontier front;
+
+    public MazeSolver(String filename){
+	this(filename, false);
+    }
+
+    public MazeSolver(String filename, boolean anime){
+        board = new Maze(filename);
+	animate = anime;
+    }
+
+    public String toString(){
+	if (animate){
+	    return board.toString(100);
+	}
+	return board.toString();
+    }
+
+    public void solve(){
+	solve(1);
+    }
+
+    private int dist(int r, int c, Location destination){
+	return (Math.abs(destination.getRow() - r) + Math.abs(destination.getCol() - c));
+    }
+
+    private void fowards(Location prev, int r, int c){
+	if(board.get(r, c) == ' '){
+	    front.add(new Location(r, c, prev, dist(r, c, board.getStart()), dist(r, c, board.getEnd()), aStar));
+	    board.set(r ,c ,'.');
+	}	    
+    }
+    
+    public void solve(int x){
+	boolean aStar = false;
+	switch(x){
+	case 0:
+	    front = new FrontierStack();
+	    break;
+	case 1:
+	    front = new FrontierQueue();
+	    break;
+	case 2:
+	    front = new FrontierPriorityQueue();
+	    break;
+	case 3:
+	    front = new FrontierPriorityQueue();
+	    aStar = true;
+	    break;
+	default:
+	     throw new IllegalArgumentException();
+	}
+	front.add(board.getStart());
+	while (front.hasNext()){
+	    Location current = front.next();
+	    fowards(current, current.getRow() + 1, current.getCol());
+	    fowards(current, current.getRow() - 1, current.getCol());
+	    fowards(current, current.getRow(), current.getCol() + 1);
+	    fowards(current, current.getRow(), current.getCol() - 1);
+	    if(dist(current.getRow(), current.getCol(), board.getEnd()) == 0){
+		board.set(current.getRow(), current.getCol(), 'E');
+		while(current.getPrev() != null){
+		    current = current.getPrev();
+		    board.set(current.getRow(), current.getCol(), '@');
+		}
+		board.set(current.getRow(), current.getCol(), 'S');
+		return;
+	    }
+	}
+    }
+}
