@@ -34,17 +34,19 @@ public class MyDeque{
 	    temp[b] = data[b];
 	}
 	if (front > back){
-	    for(int f = 0; f >= data.length - front - 1; f++){
+	    for(int f = 0; f <= data.length - front - 1; f++){
 		temp[temp.length - f - 1] = data[data.length - f - 1];
 	    }
 	}
+	front = front + data.length;
+	data = temp;
     }
     
     public void addFirst(String s){
 	if(s == null){
 	    throw new NullPointerException();
 	}
-	if(size == data.length){
+	if(size >= data.length){
 	    resize();
 	}
 	front--;

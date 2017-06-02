@@ -5,7 +5,6 @@ public class StackCalc{
 	String[] tokens = s.split(" ");
 	Stack<Double> values = new Stack<Double>();
 	for(String token : tokens){
-	    System.out.println(values);
 	    if(isOp(token)){
 		values.push(apply(values.pop(), values.pop(), token));
 	    }
@@ -13,7 +12,6 @@ public class StackCalc{
 		values.push(Double.parseDouble(token));
 	    }
 	}
-	System.out.println(values);
 	return values.pop();
     }
 
