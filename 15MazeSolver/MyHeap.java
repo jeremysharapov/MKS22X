@@ -72,7 +72,7 @@ public class MyHeap{
     }
 
     private void pushUp(){
-	for (int i = size; (data[i].compareTo(data[i / 2]) * n) > 0 && i > 1; i = i / 2){
+	for (int i = size; i > 1 && (data[i].compareTo(data[i / 2]) * n) > 0; i = i / 2){
 	    Location temp = data[i];
 	    data[i] = data[i / 2];
 	    data[i / 2] = temp;

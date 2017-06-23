@@ -24,7 +24,7 @@ public class USACO{
 	    }
 	    }*/
     
-    public static void Silver(String filename){
+    public static int Silver(String filename){
 	try{
 	    Scanner scan = new Scanner(new File ("filename"));
 	    int[][] grid = new int[scan.nextInt()][scan.nextInt()];
@@ -44,12 +44,13 @@ public class USACO{
 	    int endx = scan.nextInt() - 1;
 	    int endy = scan.nextInt() - 1;
 	    grid[startx][starty] = 1;
-	    SilverH(grid, grid, time, endx, endy, 1);
+	    return SilverH(grid, grid, time, endx, endy, 1);
 	}
 	catch(FileNotFoundException FNFE){
 	    System.out.println("File not found");
 	    System.exit(1);
 	}
+	return 0;
     }
 
     public static boolean isValid(int r, int c, int[][] field){
@@ -82,5 +83,9 @@ public class USACO{
 	else{
 	    return SilverH(next, next, t, x, y, step + 1);
 	}
+    }
+
+    public static void main(String[] args){
+	System.out.println(Silver("SilverInput"));
     }
 }

@@ -72,9 +72,6 @@ public class MazeSolver{
 		board.set(current.getRow(), current.getCol(), 'S');
 		return;
 	    }
-	    if(animate){
-	        System.out.println(this.toString());
-	    }
 	}
     }
 }

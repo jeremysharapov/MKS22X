@@ -26,9 +26,10 @@ public class USACO{
     
     public static int Silver(String filename){
 	try{
-	    Scanner scan = new Scanner(new File ("filename"));
+	    Scanner scan = new Scanner(new File(filename));
 	    int[][] grid = new int[scan.nextInt()][scan.nextInt()];
 	    int time = scan.nextInt();
+	    scan.nextLine();
 	    for (int row = 0; row < grid.length; row++){
 		for (int col = 0; col < grid[0].length; col++){
 		    if (scan.next() == "*"){
