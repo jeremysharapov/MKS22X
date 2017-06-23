@@ -1,7 +1,7 @@
 import java.util.*;
 public class MyLinkedList implements Iterable<Integer>{
-    int size;
-    LNode head, tail;
+    private int size = 0;
+    private LNode head, tail;
     
     private class LNode{
 	LNode next, prev;
@@ -45,19 +45,18 @@ public class MyLinkedList implements Iterable<Integer>{
 	    location.next.prev = toBeAdded;
 	    location.next = toBeAdded;
 	}
-	size++;
     }
 
     private void remove(LNode target){
-	if (target == head && target == tail){
+	if (size == 1){
 	    tail = null;
 	    head = null;
 	}
-	if (target == tail){
+	else if (target == tail){
 	    target.prev.next = null;
 	    tail = target.prev;
 	}
-	if (target == head){
+	else if (target == head){
 	    target.next.prev = null;
 	    head = target.next;
 	}
@@ -111,13 +110,26 @@ public class MyLinkedList implements Iterable<Integer>{
     
     public int remove(int index){
 	int L = getNthNode(index).value;
+	//System.out.println(size);
 	remove(getNthNode(index));
 	return L;
     }
     
     public void add(int index, int value){
 	LNode TBA = new LNode(value);
-	addAfter(getNthNode(index - 1), TBA);
+	if (size == 0){
+	    head = TBA;
+	    tail = TBA;
+	}
+	else if (index == 0){
+	    TBA.next = head;
+	    head.prev = TBA;
+	    head = TBA;
+	}
+	else{
+	    addAfter(getNthNode(index - 1), TBA);
+	}
+	size++;
     }
 
     public Iterator<Integer> iterator(){
@@ -134,13 +146,14 @@ public class MyLinkedList implements Iterable<Integer>{
 	}
 
 	public boolean hasNext(){
-	    return L.next != null;
+	    return L != null;
 	}
 
 	public Integer next(){
 	    if(hasNext()){
+		LNode W = L;
 		L = L.next;
-		return L.value;
+		return W.value;
 	    }
 	    else{
 		throw new NoSuchElementException();

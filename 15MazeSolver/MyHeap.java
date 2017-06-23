@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class MyHeap{
     private Location[] data;
     private int size;
@@ -8,6 +9,7 @@ public class MyHeap{
 	data = new Location[10];
 	size = 0;
 	n = 1;
+	//data[0] = 1;
     }
 
     public MyHeap(boolean max){
@@ -15,15 +17,21 @@ public class MyHeap{
 	size = 0;
 	if (max){
 	    n = 1;
+	    //data[0] = 1;
 	}
 	else{
 	    n = -1;
+	    //data[0] = -1;
 	}
     }
 
+    public int size(){
+	return size;
+    }
+    
     private void grow(){
         Location[] temp = new Location[size * 2];
-	for(int i = 1; i <= size; i++){
+	for(int i = 0; i <= size; i++){
 	    temp[i] = data[i];
 	}
 	data = temp;
@@ -42,11 +50,13 @@ public class MyHeap{
 	if (size == 0){
 	    throw new NoSuchElementException();
 	}
-	Location ans = data[size];
+	Location ans = data[1];
 	data[1] = data[size];
 	data[size] = null;
 	size--;
 	pushDown();
+	//System.out.println(Arrays.toString(data));
+	//System.out.println(size);
 	return ans;
     }
 
@@ -57,35 +67,45 @@ public class MyHeap{
 	size++;
 	data[size] = s;
 	pushUp();
+	//System.out.println(Arrays.toString(data));
+	//System.out.println(size);
     }
 
     private void pushUp(){
-	for (int i = size; data[i].compareTo(data[i / 2]) * n > 0 && i > 1; i = i / 2){
+	for (int i = size; (data[i].compareTo(data[i / 2]) * n) > 0 && i > 1; i = i / 2){
 	    Location temp = data[i];
 	    data[i] = data[i / 2];
 	    data[i / 2] = temp;
+	    // System.out.println(Arrays.toString(data));
 	}
     }
 
     private void pushDown(){
 	int i = 1;
-	while (i != size && (data[i].compareTo(data[i * 2]) * n < 0 || data[i].compareTo(data[i * 2 + 1]) * n < 0)){
-	    if(data[i].compareTo(data[i * 2]) * n < 0){
-		Location temp = data[i];
-		data[i] = data[i * 2];
-		data[i * 2] = temp;
-		i = i * 2;
+        while((i * 2) <= size){
+	    if((i * 2 + 1) <= size &&(data[i * 2 + 1].compareTo(data[i * 2]) * n) > 0){
+		if((data[i].compareTo(data[i * 2 + 1]) * n) < 0){
+		    Location temp = data[i * 2 + 1];
+		    data[i * 2 + 1] = data[i];
+		    data[i] = temp;
+		    i = i * 2 + 1;
+		}
+		else{
+		    return;
+		}
 	    }
 	    else{
-		Location temp = data[i];
-		data[i] = data[i * 2 + 1];
-		data[i * 2 + 1] = temp;
-		i = i * 2 + 1;
+		if((data[i].compareTo(data[i * 2]) * n) < 0){
+		    Location temp = data[i * 2];
+		    data[i * 2] = data[i];
+		    data[i] = temp;
+		    i = i * 2;
+		}
+		else{
+		    return;
+		}
 	    }
 	}
-    }
-
-    public int size(){
-	return size;
+	//System.out.println(Arrays.toString(data));
     }
 }
